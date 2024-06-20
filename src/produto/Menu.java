@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import produto.controller.ProdutoController;
 import produto.model.ProdutoLivro;
 import produto.model.ProdutoRevista;
 import produto.util.Cores;
@@ -11,15 +12,16 @@ import produto.util.Cores;
 public class Menu {
 	public static void main(String[] args) {
 		Scanner leia = new Scanner(System.in);
+		
+		ProdutoController produtos = new ProdutoController();
 
-		int opcao;
+		int opcao, id, categoria;
+		String nome, autor, editora;
+		float preco;
 		
-		//teste
-		ProdutoLivro livro1 = new ProdutoLivro(1234, 20f, "Sherlock", 1, "Joao");
-		livro1.visualizar();
+		ProdutoLivro livro1 = new ProdutoLivro(produtos.createId(), 23f, "Sherlock holems", 1, "Arthur");
+		produtos.cadastrar(livro1);
 		
-		ProdutoRevista revista1 = new ProdutoRevista(1234, 20f, "Genius", 2, "Aguas claras");
-		revista1.visualizar();
 
 
 		while(true) {
@@ -62,28 +64,106 @@ public class Menu {
 
 			switch (opcao) {
 			case 1:
-				System.out.println(Cores.TEXT_WHITE + "Cadastrar Produto\n\n");
-
+				System.out.println(Cores.TEXT_WHITE + "Cadastrar produto\n\n");
+				
+				do {
+					System.out.println("Digite a categoria (1-Livro ou 2-Revista): ");
+					categoria = leia.nextInt();
+				} while(categoria < 1 || categoria > 2);
+				
+				System.out.println("Digite o nome: ");
+				leia.skip("\\R?");
+				nome = leia.nextLine();
+				
+				System.out.println("Digite o preço (R$): ");
+				preco = leia.nextFloat();
+				
+				switch(categoria) {
+					case 1 -> {
+						System.out.println("Digite o autor do livro: ");
+						leia.skip("\\R?");
+						autor = leia.nextLine();
+						produtos.cadastrar(new ProdutoLivro(produtos.createId(), preco, nome, categoria, autor));
+					} case 2 -> {
+						System.out.println("Digite a editora da revista: ");
+						leia.skip("\\R?");
+						editora = leia.nextLine();
+						produtos.cadastrar(new ProdutoRevista(produtos.createId(), preco, nome, categoria, editora));
+					}
+				}
+				
 				keyPress();
 				break;
 			case 2:
 				System.out.println(Cores.TEXT_WHITE + "Listar todos os produtos\n\n");
-
+				produtos.listarProdutos();
 				keyPress();
 				break;
 			case 3:
 				System.out.println(Cores.TEXT_WHITE + "Buscar produto por ID\n\n");
 
+				System.out.println("Digite o Id do produto: ");
+				id = leia.nextInt();
+				
+				produtos.procurarPorId(id);
+				
 				keyPress();
 				break;
 			case 4:
 				System.out.println(Cores.TEXT_WHITE + "Atualizar Dados de um produto\n\n");
 
+				System.out.println("Digite o id da produto: ");
+				id = leia.nextInt();
+
+				var buscaConta = produtos.buscarNaCollection(id);
+
+				if(buscaConta != null) {
+
+					
+					categoria = buscaConta.getCategoria();
+
+					System.out.println("Digite o nome atualizado do produto: ");
+					leia.skip("\\R?");
+					nome = leia.nextLine();
+
+					System.out.println("Digite o preço atualizado do produto: ");
+					preco = leia.nextFloat();
+
+					switch(categoria) {
+					case 1 -> {
+						System.out.println("Digite o autor do livro): ");
+						leia.skip("\\R?");
+						autor = leia.nextLine();
+
+						produtos.atualizar(new ProdutoLivro(id, preco, nome, categoria, autor));
+					
+					}
+					case 2 -> {
+						System.out.println("Digite da editora: ");
+						leia.skip("\\R?");
+						editora = leia.nextLine();
+
+						produtos.atualizar(new ProdutoRevista(id, preco, nome, categoria, editora));
+					
+					}
+					default -> {
+						System.out.println("Categoria inválida!");
+					}
+					}
+				} else {
+					System.out.println("Produto não encontrado!");
+				}
+				
 				keyPress();
 				break;
 			case 5:
 				System.out.println(Cores.TEXT_WHITE + "Excluir um Produto\n\n");
 
+				System.out.println("digite o id do produto que você deseja excluir: ");
+				id = leia.nextInt();
+				
+				produtos.deletar(id);
+				
 				keyPress();
 				break;
 			default:

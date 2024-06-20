@@ -19,8 +19,10 @@ public class ProdutoLivro extends Produto {
 	
 	@Override
 	public void visualizar() {
-		super.visualizar();
-		System.out.printf("\nNome do autor:", autor);
+	    super.visualizar();
+	    System.out.printf("\nNome do autor: %s\n", this.getAutor());
+	    System.out.println("\n***********************************************************\n");
 	}
+
 
 }

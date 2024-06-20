@@ -19,7 +19,9 @@ public class ProdutoRevista extends Produto {
 	
 	@Override
 	public void visualizar() {
-		super.visualizar();
-		System.out.printf("\nEditora que publicou:", editora);
+	    super.visualizar();
+	    System.out.printf("\nEditora que publicou: %s", this.getEditora());
+	    System.out.println("\n***********************************************************\n");
 	}
+
 }

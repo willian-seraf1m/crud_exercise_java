@@ -2,7 +2,8 @@ package produto.model;
 
 public abstract class Produto {
 	
-	private int id, categoria;
+	private int id;
+	private int categoria;
 	private float preco;
 	private String nome;
 	
@@ -47,24 +48,14 @@ public abstract class Produto {
 	
 	
 	public void visualizar() {
-		String categoria = "";
-		
-		switch(this.categoria) {
-		case 1:
-			categoria = "Livro";
-			break;
-		case 2:
-			categoria = "Revista";
-			break;
-		}
-		
-		System.out.println("\n\n***********************************************************");
-		System.out.printf("\nDados do Produto: ", this.nome);
-		System.out.println("\n\n***********************************************************");
-		System.out.printf("\nID do produto: ", this.id);
-		System.out.printf("\nCategoria do produto: ", categoria);
-		System.out.printf("\nNome do Produto: ", this.nome);
-		System.out.printf("\nPreço do produto: ", this.preco);
+	    String categoriaString = this.getCategoria() == 1 ? "Livro" : "Revista";
+	    
+	    System.out.println("\n***********************************************************");
+	    System.out.println("\nDados do Produto:");
+	    System.out.printf("\nID do produto: %d", this.getId());
+	    System.out.printf("\nCategoria do produto: %s", categoriaString);
+	    System.out.printf("\nNome do Produto: %s", this.getNome());
+	    System.out.printf("\nPreço do produto: R$ %.2f", this.getPreco());
 	}
 	
 }
