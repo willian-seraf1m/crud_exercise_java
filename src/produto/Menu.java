@@ -4,7 +4,8 @@ import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-
+import produto.model.ProdutoLivro;
+import produto.model.ProdutoRevista;
 import produto.util.Cores;
 
 public class Menu {
@@ -12,6 +13,13 @@ public class Menu {
 		Scanner leia = new Scanner(System.in);
 
 		int opcao;
+		
+		//teste
+		ProdutoLivro livro1 = new ProdutoLivro(1234, 20f, "Sherlock", 1, "Joao");
+		livro1.visualizar();
+		
+		ProdutoRevista revista1 = new ProdutoRevista(1234, 20f, "Genius", 2, "Aguas claras");
+		revista1.visualizar();
 
 
 		while(true) {
